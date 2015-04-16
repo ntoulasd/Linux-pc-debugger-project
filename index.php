@@ -39,9 +39,13 @@
     <div class="ex">
     <?php
     if ($_GET['question'])
-        {
+    {
+$question = htmlEntities($_GET['question'], ENT_QUOTES);
+
+if (!empty($question) && !preg_match('/^[\d\.]+$/', $question)) {
+    exit("Λάθος ερώτηση !\n");
            
-       echo "Ερώτηση: ".substr($_GET['question'],0,-1)."<br><br>";   
+       echo "Ερώτηση: ".substr($question,0,-1)."<br><br>";  
     }
         else
          {
@@ -55,12 +59,6 @@
       }
     mysql_set_charset('utf8',$con);
     mysql_select_db("debuger", $con);
-
-
-    $question = $_GET['question'];
-    if (!empty($question) && !preg_match('/^[\d\.]+$/', $question)) {
-        exit("Λάθος ερώτηση !\n");
-    }
 
     $result = mysql_query("SELECT * FROM data where data.id LIKE '".$question."_'");
     $num_rows = mysql_num_rows($result);
@@ -118,9 +116,9 @@
     echo "<br><br>";
     ?>
 
-    <a href="index.php">Αρχική</a> <a href='index.php?question=<?php echo substr($_GET['question'],0,-2); ?>'>Πίσω</a>
+    <a href="index.php">Αρχική</a> <a href='index.php?question=<?php echo substr($question,0,-2); ?>'>Πίσω</a>
     <br><br>
-    Linux PC Debugger Version Alpha 0.2 2010 GPL <a href="http://www.ubuntu-gr.org">www.ubuntu-gr.org</a>
+    Linux PC Debugger Version 0.5 2010-2015 GPL Δ. Ντούλας
     </div>
 
     </body>
